@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sickness Cure App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        main {
+            padding: 20px;
+        }
+        label, button {
+            margin-top: 10px;
+            display: block;
+        }
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e7f7e7;
+            border: 1px solid #4CAF50;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Sickness Cure App</h1>
+    <p>Diagnóstico preliminar para tu mascota</p>
+</header>
+
+<main>
+    <h2>Selecciona el tipo de mascota y describe los síntomas</h2>
+    <form id="symptomForm">
+        <label for="petType">Tipo de mascota:</label>
+        <select id="petType" name="petType" required>
+            <option value="perro">Perro</option>
+            <option value="gato">Gato</option>
+        </select>
+
+        <label for="symptoms">Síntomas observados:</label>
+        <textarea id="symptoms" name="symptoms" rows="4" required></textarea>
+
+        <button type="submit">Obtener diagnóstico</button>
+    </form>
+
+    <div id="result" class="result" style="display: none;">
+        <h3>Diagnóstico:</h3>
+        <p id="diagnosis"></p>
+        <h4>Tratamiento sugerido:</h4>
+        <p id="treatment"></p>
+        <h4>Descripción:</h4>
+        <p id="description"></p>
+    </div>
+</main>
+
+<script>
+    document.getElementById('symptomForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const petType = document.getElementById('petType').value;
+        const symptoms = document.getElementById('symptoms').value.toLowerCase();
+        let diagnosis = '';
+        let treatment = '';
+        let description = '';
+
+        // Diagnóstico basado en síntomas y tipo de mascota
+        if (petType === 'perro') {
+            if (symptoms.includes('vómito') && symptoms.includes('letargo')) {
+                diagnosis = 'Parvovirosis canina';
+                treatment = 'Tratamiento de soporte, incluyendo fluidoterapia intravenosa y antibióticos.';
+                description = 'Enfermedad viral grave que afecta a cachorros, causando vómitos, diarrea sanguinolenta y deshidratación.';
+            } else if (symptoms.includes('picazón') && symptoms.includes('pérdida de pelo')) {
+                diagnosis = 'Dermatitis alérgica a la picadura de pulgas';
+                treatment = 'Uso de antipulgas y medicamentos antiinflamatorios.';
+                description = 'Reacción alérgica a las picaduras de pulgas, común en perros expuestos a estos parásitos.';
+            } else {
+                diagnosis = 'No se pudo determinar un diagnóstico';
+                treatment = 'Se recomienda consultar a un veterinario.';
+                description = 'Los síntomas ingresados no coinciden con enfermedades comunes.';
+            }
+        } else if (petType === 'gato') {
+            if (symptoms.includes('vómito') && symptoms.includes('diarrea')) {
+                diagnosis = 'Parvovirosis felina';
+                treatment = 'Tratamiento de soporte, incluyendo fluidoterapia intravenosa y antibióticos.';
+                description = 'Infección viral que afecta a gatos, causando vómitos, diarrea y deshidratación.';
+            } else if (symptoms.includes('dificultad para orinar') && symptoms.includes('sangre en la orina')) {
+                diagnosis = 'Enfermedad del tracto urinario inferior felino (FLUTD)';
+                treatment = 'Tratamiento con antibióticos y cambios en la dieta.';
+                description = 'Trastorno común en gatos, caracterizado por dificultad o dolor al orinar y presencia de sangre en la orina.';
+            } else {
+                diagnosis = 'No se pudo determinar un diagnóstico';
+                treatment = 'Se recomienda consultar a un veterinario.';
+                description = 'Los síntomas ingresados no coinciden con enfermedades comunes.';
+            }
+        }
+
+        // Mostrar resultados
+        document.getElementById('diagnosis').textContent = diagnosis;
+        document.getElementById('treatment').textContent = treatment;
+        document.getElementById('description').textContent = description;
+        document.getElementById('result').style.display = 'block';
+    });
+</script>
+
+</body>
+</html>
